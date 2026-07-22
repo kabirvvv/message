@@ -8,55 +8,161 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Floating Stardust Particles -->
+    <canvas id="stardust"></canvas>
+    
+    <!-- Ambient glowing gradients -->
     <div class="background-animation"></div>
+    
     <div class="container">
         
         <!-- Page 1 -->
         <div class="page active" id="page-1">
             <div class="message-box">
-                <p>Hey it's been a while I don't even know what to say but first of all happy birthday sameeksha I want you to know that you're the only reason I've spent countless hours creating this little project because I wanted something that mattered between us.....i know it sounds weird but trust me it's just a project that I had in mind for a long while and I want to thank YOU especially because you're the motivation that kept me driving non stop to keep going even when I faced failures that made me quit this project that completely shook the whole foundation of it</p>
+                <p class="emotional-text">Hey it's been a while I don't even know what to say but first of all happy birthday sameeksha I want you to know that you're the only reason I've spent countless hours creating this little project because I wanted something that mattered between us.....i know it sounds weird but trust me it's just a project that I had in mind for a long while and I want to thank YOU especially because you're the motivation that kept me driving non stop to keep going even when I faced failures that made me quit this project that completely shook the whole foundation of it</p>
             </div>
-            <button class="next-btn" onclick="nextPage(2)">Next <span>&rarr;</span></button>
+            <div class="button-container">
+                <button class="nav-btn prev-btn hidden">&larr; <span>Previous</span></button>
+                <button class="nav-btn next-btn" onclick="goToPage(2)"><span>Next</span> &rarr;</button>
+            </div>
         </div>
         <!-- Page 2 -->
         <div class="page" id="page-2">
             <div class="message-box">
-                <p>i just wanted to quit because the disappointment was real I was trying so hard and it kept failing i couldn't take it anymore but then every time that thought came through i remembered the soul of this project and that was you all along even the idea was inspired by you I once told you that I'd build a music app for you and that joke eventually turned into something sacred and come alive in this project</p>
+                <p class="emotional-text">i just wanted to quit because the disappointment was real I was trying so hard and it kept failing i couldn't take it anymore but then every time that thought came through i remembered the soul of this project and that was you all along even the idea was inspired by you I once told you that I'd build a music app for you and that joke eventually turned into something sacred and come alive in this project</p>
             </div>
-            <button class="next-btn" onclick="nextPage(3)">Next <span>&rarr;</span></button>
+            <div class="button-container">
+                <button class="nav-btn prev-btn" onclick="goToPage(1)">&larr; <span>Previous</span></button>
+                <button class="nav-btn next-btn" onclick="goToPage(3)"><span>Next</span> &rarr;</button>
+            </div>
         </div>
         <!-- Page 3 -->
         <div class="page" id="page-3">
             <div class="message-box">
-                <p>I don't know if you'll actually use it or not but still building it from scratch spending all this time months of frustration over countless failures and disappointment are all worth it because I get to actually present it to you as a piece of myself because even if you don't end up actually using it I'll still be happy that I made it for you your first impression to this project will be my only reward that I seek</p>
+                <p class="emotional-text">I don't know if you'll actually use it or not but still building it from scratch spending all this time months of frustration over countless failures and disappointment are all worth it because I get to actually present it to you as a piece of myself because even if you don't end up actually using it I'll still be happy that I made it for you your first impression to this project will be my only reward that I seek</p>
             </div>
-            <button class="next-btn" onclick="nextPage(4)">Next <span>&rarr;</span></button>
+            <div class="button-container">
+                <button class="nav-btn prev-btn" onclick="goToPage(2)">&larr; <span>Previous</span></button>
+                <button class="nav-btn next-btn" onclick="goToPage(4)"><span>Next</span> &rarr;</button>
+            </div>
         </div>
         <!-- Page 4 -->
         <div class="page" id="page-4">
             <div class="message-box">
-                <p>in the end all I want to say Is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way you will always be my biggest motivation atleast that's something I've realised building it for you.....and lastly I only want to say is Please accept this little gift from me</p>
-                <h2 class="final-wish">HAPPY BIRTHDAY SAMEEKSHA</h2>
+                <p class="emotional-text">in the end all I want to say Is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way you will always be my biggest motivation atleast that's something I've realised building it for you.....and lastly I only want to say is Please accept this little gift from me</p>
+                <h2 class="final-wish delay-wish">HAPPY BIRTHDAY SAMEEKSHA</h2>
             </div>
             
-            <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with the URL to the music app -->
-            <a href="https://backend-five-phi-74.vercel.app/" class="next-btn final-btn">Open Project <span>&rarr;</span></a>
+            <div class="button-container">
+                <button class="nav-btn prev-btn" onclick="goToPage(3)">&larr; <span>Previous</span></button>
+                <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with the URL to the music app -->
+                <a href="YOUR_APP_LINK_HERE" class="nav-btn next-btn final-btn"><span>Open Project</span> &rarr;</a>
+            </div>
         </div>
         
     </div>
     
     <script>
-        function nextPage(pageNumber) {
-            // Hide all pages
+        // --- 1. Floating Stardust Canvas Effect ---
+        const canvas = document.getElementById('stardust');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particles = [];
+        const particleCount = 120; // Number of glowing dust motes
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.6 - 0.1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // If it floats off the top, reset it to the bottom
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(220, 163, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        // --- 2. Word-by-Word Emotional Text Reveal ---
+        function prepareTextAnimation() {
+            document.querySelectorAll('p.emotional-text').forEach(el => {
+                const text = el.innerText;
+                el.innerHTML = '';
+                // Split text into words and wrap them in spans
+                const words = text.split(' ');
+                words.forEach((word, index) => {
+                    const span = document.createElement('span');
+                    span.innerText = word + ' ';
+                    // Calculate a flowing delay so words appear in sequence like talking
+                    span.style.transitionDelay = `${index * 0.08}s`;
+                    span.classList.add('word');
+                    el.appendChild(span);
+                });
+            });
+        }
+        prepareTextAnimation();
+        // --- 3. Page Navigation & Triggering Animations ---
+        function goToPage(pageNumber) {
+            // Fade out and reset all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
+                // Hide words again so they animate when you return
+                page.querySelectorAll('.word').forEach(w => w.classList.remove('visible'));
+                const wish = page.querySelector('.final-wish');
+                if(wish) wish.classList.remove('visible');
             });
+            
             // Show the target page
-            document.getElementById(`page-${pageNumber}`).classList.add('active');
+            const target = document.getElementById(`page-${pageNumber}`);
+            target.classList.add('active');
+            
+            // Add slight delay before starting the text reveal
+            setTimeout(() => {
+                target.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+                const wish = target.querySelector('.final-wish');
+                if(wish) {
+                    // Start the big happy birthday reveal slightly after the paragraph finishes
+                    const wordCount = target.querySelectorAll('.word').length;
+                    wish.style.transitionDelay = `${(wordCount * 0.08) + 0.5}s`;
+                    wish.classList.add('visible');
+                }
+            }, 100);
         }
+        // Initialize the first page animations on load
+        setTimeout(() => {
+            document.getElementById('page-1').querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+        }, 400);
     </script>
 </body>
 </html>
