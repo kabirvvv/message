@@ -1,11 +1,11 @@
 :root {
-    --bg-color: #05030a; /* Deeper space black for higher contrast */
+    --bg-color: #030206;
     --text-primary: #ffffff;
     --text-secondary: #d1c8eb;
-    --accent: #dca3ff; /* Softer, slightly pink-purple */
-    --card-bg: rgba(18, 12, 30, 0.45);
-    --card-border: rgba(220, 163, 255, 0.15);
-    --glow: rgba(220, 163, 255, 0.4);
+    --accent: #dca3ff;
+    --card-bg: rgba(15, 10, 26, 0.5);
+    --card-border: rgba(220, 163, 255, 0.12);
+    --glow: rgba(220, 163, 255, 0.35);
 }
 * {
     margin: 0;
@@ -22,9 +22,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 80px 20px;
+    padding: 40px 20px;
+    transition: background-color 1.5s ease;
 }
-/* Stardust Canvas Layer */
+/* Stardust Canvas */
 canvas#stardust {
     position: fixed;
     top: 0;
@@ -34,49 +35,159 @@ canvas#stardust {
     z-index: -2;
     pointer-events: none;
 }
-/* Beautiful Animated Gradient Background */
+/* Glow Follower following Mouse */
+#glow-follower {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    margin-left: -250px;
+    margin-top: -250px;
+    background: radial-gradient(circle, rgba(196, 158, 255, 0.08) 0%, rgba(144, 116, 219, 0.02) 45%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity 0.8s ease;
+}
+/* Ambient Deep Background Glow */
 .background-animation {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
-    background: radial-gradient(circle at 50% 50%, #150d2b 0%, #05030a 100%);
-    opacity: 0.9;
+    z-index: -3;
+    background: radial-gradient(circle at 50% 50%, #110824 0%, #030206 100%);
+    transition: opacity 1.5s ease, filter 1.5s ease;
 }
-.background-animation::before,
-.background-animation::after {
-    content: '';
+body.darkened-bg .background-animation {
+    opacity: 0.95;
+    filter: brightness(0.5);
+}
+/* --- INTRO SCREEN STYLING --- */
+.intro-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    background: transparent;
+    transition: opacity 1.2s ease, transform 1.2s ease, filter 1.2s ease;
+}
+.intro-container.dissolve {
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(12px);
+    pointer-events: none;
+}
+.intro-content {
+    text-align: center;
+    max-width: 600px;
+    padding: 0 20px;
+}
+.app-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--accent);
+    letter-spacing: 6px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-shadow: 0 0 30px rgba(220, 163, 255, 0.3);
+}
+.tagline-wrapper {
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+.tagline {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.date-line {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(209, 200, 235, 0.6);
+    letter-spacing: 3px;
+    margin-top: 15px;
+    transition: opacity 1.2s ease;
+}
+/* Intro Button with Aura Hover */
+.glow-btn {
+    position: relative;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(220, 163, 255, 0.3);
+    padding: 14px 45px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: border-color 0.6s ease, box-shadow 0.6s ease;
+    outline: none;
+    overflow: visible;
+}
+.glow-btn .btn-text {
+    position: relative;
+    z-index: 2;
+}
+.glow-btn .btn-aura {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 80vw;
-    height: 80vw;
-    background: radial-gradient(circle, rgba(220,163,255,0.06) 0%, transparent 60%);
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     transform: translate(-50%, -50%);
-    animation: breath 14s infinite alternate ease-in-out;
+    border-radius: 40px;
+    background: radial-gradient(circle, rgba(220, 163, 255, 0.25) 0%, transparent 70%);
+    opacity: 0;
+    transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
 }
-.background-animation::after {
-    width: 100vw;
-    height: 100vw;
-    background: radial-gradient(circle, rgba(122,86,199,0.05) 0%, transparent 60%);
-    animation-delay: -7s;
-    animation-duration: 20s;
+.glow-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(220, 163, 255, 0.3);
 }
-@keyframes breath {
-    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+.glow-btn:hover .btn-aura {
+    opacity: 1;
+    width: 220%;
+    height: 300%;
 }
+/* Visibility Helper Classes */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.fade-in {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.fade-out {
+    opacity: 0 !important;
+    transform: translateY(-10px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+/* --- MAIN LETTER CONTAINER STYLING --- */
 .container {
     max-width: 900px;
     width: 100%;
     position: relative;
     min-height: 450px;
     z-index: 1;
+    transition: opacity 1.2s ease;
 }
-/* Page Navigation Styling */
 .page {
     display: none;
     opacity: 0;
@@ -85,15 +196,21 @@ canvas#stardust {
 .page.active {
     display: flex;
     flex-direction: column;
-    animation: fadeUp 1.2s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: unfoldLetter 1.4s forwards cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes fadeUp {
-    to {
+@keyframes unfoldLetter {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+        filter: blur(8px);
+    }
+    100% {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateY(0);
+        filter: blur(0);
     }
 }
-/* Breathing Glassmorphism Card */
+/* Glassmorphism Card */
 .message-box {
     background: var(--card-bg);
     backdrop-filter: blur(35px);
@@ -101,76 +218,94 @@ canvas#stardust {
     border: 1px solid var(--card-border);
     border-radius: 24px;
     padding: 70px 80px;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    margin-bottom: 40px;
-    animation: cardPulse 8s infinite alternate ease-in-out;
-}
-@keyframes cardPulse {
-    0% { box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(220, 163, 255, 0); }
-    100% { box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 50px rgba(220, 163, 255, 0.06); }
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    margin-bottom: 35px;
+    transition: box-shadow 0.8s ease;
 }
 p.emotional-text {
-    font-size: 1.4rem; 
+    font-size: 1.35rem; 
     color: var(--text-secondary);
     text-align: center;
     font-weight: 300;
+    line-height: 2.1;
 }
-/* Word-by-Word Reveal Animation */
+/* Ink-Appearing Word Reveal */
 .word {
     display: inline-block;
     opacity: 0;
-    transform: translateY(12px) translateZ(0);
-    filter: blur(6px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s ease, color 1s ease;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    transform: translateY(8px) scale(0.97);
+    filter: blur(8px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 1s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.8s ease;
 }
 .word.visible {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0) scale(1);
     filter: blur(0);
     color: var(--text-primary);
 }
-h2.final-wish {
+/* --- PAGE 4 SPECIAL ENDING STYLING --- */
+.final-quote {
     font-family: 'Cinzel', serif;
-    font-size: 2.6rem;
-    color: var(--accent);
+    font-size: 1.25rem;
+    color: #e5d9fd;
     text-align: center;
-    margin-top: 60px;
-    font-weight: 700;
+    margin-top: 45px;
+    font-style: italic;
+    line-height: 1.9;
+    letter-spacing: 1px;
+    transition: opacity 1.8s ease;
+}
+.final-bday-container {
+    margin-top: 50px;
+    text-align: center;
+}
+.bday-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    color: var(--accent);
     letter-spacing: 5px;
-    text-shadow: 0 0 30px var(--glow);
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 2s cubic-bezier(0.2, 0.8, 0.2, 1); 
+    font-weight: 600;
+    transition: opacity 2s ease;
 }
-h2.final-wish.visible {
-    opacity: 1;
-    transform: scale(1);
-    animation: textPulse 4s infinite alternate ease-in-out 3.5s;
+.bday-name {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: #ffffff;
+    letter-spacing: 7px;
+    font-weight: 700;
+    margin-top: 10px;
+    text-shadow: 0 0 35px var(--glow), 0 0 10px rgba(255, 255, 255, 0.8);
+    transition: opacity 2.2s ease, text-shadow 2.2s ease;
 }
-@keyframes textPulse {
-    0% { text-shadow: 0 0 30px var(--glow); }
-    100% { text-shadow: 0 0 50px var(--glow), 0 0 15px #fff; }
+.fade-in-glow {
+    opacity: 1 !important;
+    animation: namePulse 4s infinite alternate ease-in-out 2.5s;
 }
-/* Button Layout */
+@keyframes namePulse {
+    0% { text-shadow: 0 0 35px var(--glow), 0 0 10px rgba(255, 255, 255, 0.8); }
+    100% { text-shadow: 0 0 60px var(--glow), 0 0 20px #ffffff; }
+}
+/* --- NAVIGATION BUTTONS --- */
 .button-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 15px;
 }
-/* Navigation Buttons */
 .nav-btn {
     background: transparent;
     color: var(--accent);
     border: 1px solid rgba(220, 163, 255, 0.3);
     padding: 12px 35px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 400;
     border-radius: 40px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -193,7 +328,7 @@ h2.final-wish.visible {
     color: var(--bg-color);
     border-color: var(--accent);
     box-shadow: 0 0 30px var(--glow);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 .nav-btn:hover::before {
     opacity: 1;
@@ -203,7 +338,7 @@ h2.final-wish.visible {
     pointer-events: none;
 }
 .prev-btn span, .next-btn span {
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .prev-btn:hover span {
     transform: translateX(-5px);
@@ -211,14 +346,28 @@ h2.final-wish.visible {
 .next-btn:hover span {
     transform: translateX(5px);
 }
-.final-btn {
-    background: rgba(220, 163, 255, 0.1);
+/* Final Gift Button */
+.final-gift-btn {
+    background: rgba(220, 163, 255, 0.15);
     border-color: var(--accent);
+    font-weight: 500;
+    box-shadow: 0 0 30px rgba(220, 163, 255, 0.25);
+    transition: opacity 1.5s ease, transform 0.4s ease, box-shadow 0.4s ease !important;
 }
-/* Responsive Adjustments */
+.fade-in-btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+/* RESPONSIVE */
 @media (max-width: 768px) {
     body {
         padding: 30px 15px;
+    }
+    .app-title {
+        font-size: 2.2rem;
+    }
+    .tagline {
+        font-size: 1.1rem;
     }
     .message-box {
         padding: 40px 25px;
@@ -226,15 +375,21 @@ h2.final-wish.visible {
     }
     
     p.emotional-text {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
     }
-    h2.final-wish {
-        font-size: 1.8rem;
+    .final-quote {
+        font-size: 1.05rem;
+    }
+    .bday-title {
+        font-size: 1.6rem;
+    }
+    .bday-name {
+        font-size: 2.2rem;
     }
     
     .nav-btn {
         padding: 10px 22px;
-        font-size: 1.05rem;
+        font-size: 1rem;
         gap: 8px;
     }
     
