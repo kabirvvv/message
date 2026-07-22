@@ -3,24 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Sameeksha</title>
-    <meta name="description" content="A special birthday message for Sameeksha">
+    <title>For Sameeksha</title>
+    <meta name="description" content="A special birthday project dedicated to Sameeksha">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Floating Stardust Particles -->
+    <!-- Interactive Stardust & Glow Canvas -->
     <canvas id="stardust"></canvas>
-    
-    <!-- Ambient glowing gradients -->
+    <!-- Cursor Follower Glow -->
+    <div id="glow-follower"></div>
+    <!-- Background Ambient Gradients -->
     <div class="background-animation"></div>
-    
-    <div class="container">
+    <!-- INTRO COVER SCREEN -->
+    <div id="intro-screen" class="intro-container">
+        <div class="intro-content">
+            <h1 class="app-title">AudioFetch</h1>
+            
+            <div class="tagline-wrapper">
+                <p id="tagline-1" class="tagline">Some projects are built for millions.</p>
+                <p id="tagline-2" class="tagline hidden">This one was built for one.</p>
+                <div id="date-line" class="date-line hidden">July 2026</div>
+            </div>
+            <button id="open-letter-btn" class="glow-btn hidden">
+                <span class="btn-text">Open My Letter</span>
+                <div class="btn-aura"></div>
+            </button>
+        </div>
+    </div>
+    <!-- MAIN LETTER CONTAINER (Initially Hidden) -->
+    <div id="letter-container" class="container hidden">
         
         <!-- Page 1 -->
-        <div class="page active" id="page-1">
+        <div class="page" id="page-1">
             <div class="message-box">
                 <p class="emotional-text">Hey it's been a while I don't even know what to say but first of all happy birthday sameeksha I want you to know that you're the only reason I've spent countless hours creating this little project because I wanted something that mattered between us.....i know it sounds weird but trust me it's just a project that I had in mind for a long while and I want to thank YOU especially because you're the motivation that kept me driving non stop to keep going even when I faced failures that made me quit this project that completely shook the whole foundation of it</p>
             </div>
@@ -53,42 +70,70 @@
         <div class="page" id="page-4">
             <div class="message-box">
                 <p class="emotional-text">in the end all I want to say Is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way you will always be my biggest motivation atleast that's something I've realised building it for you.....and lastly I only want to say is Please accept this little gift from me</p>
-                <h2 class="final-wish delay-wish">HAPPY BIRTHDAY SAMEEKSHA</h2>
+                
+                <div id="final-thankyou" class="final-quote hidden">
+                    "Thank you for unknowingly inspiring something I never thought I'd finish."
+                </div>
+                <div id="final-bday-container" class="final-bday-container">
+                    <h2 id="bday-title" class="bday-title hidden">Happy Birthday</h2>
+                    <h2 id="bday-name" class="bday-name hidden">Sameeksha</h2>
+                </div>
             </div>
             
             <div class="button-container">
-                <button class="nav-btn prev-btn" onclick="goToPage(3)">&larr; <span>Previous</span></button>
-                <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with the URL to the music app -->
-                <a href="YOUR_APP_LINK_HERE" class="nav-btn next-btn final-btn"><span>Open Project</span> &rarr;</a>
+                <button id="p4-prev-btn" class="nav-btn prev-btn" onclick="goToPage(3)">&larr; <span>Previous</span></button>
+                
+                <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with your music app URL -->
+                <a id="gift-btn" href="YOUR_APP_LINK_HERE" class="nav-btn next-btn final-gift-btn hidden">
+                    <span>🎁 Open Your Gift</span>
+                </a>
             </div>
         </div>
         
     </div>
     
     <script>
-        // --- 1. Floating Stardust Canvas Effect ---
+        // --- 1. Interactive Stardust & Mouse Tracking ---
         const canvas = document.getElementById('stardust');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const glowFollower = document.getElementById('glow-follower');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
+        let smoothMouseX = width / 2;
+        let smoothMouseY = height / 2;
         const particles = [];
-        const particleCount = 120; // Number of glowing dust motes
+        const particleCount = 130;
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.baseX = this.x;
+                this.baseY = this.y;
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.4 - 0.2;
-                this.speedY = Math.random() * -0.6 - 0.1;
-                this.opacity = Math.random() * 0.5 + 0.1;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * -0.5 - 0.1;
+                this.opacity = Math.random() * 0.5 + 0.15;
             }
             update() {
-                this.x += this.speedX;
                 this.y += this.speedY;
-                // If it floats off the top, reset it to the bottom
+                this.x += this.speedX;
                 if (this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
+                    this.y = height;
+                    this.x = Math.random() * width;
+                    this.baseX = this.x;
+                }
+                // Interactive mouse push effect
+                const dx = smoothMouseX - this.x;
+                const dy = smoothMouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const maxDist = 180;
+                if (dist < maxDist) {
+                    const force = (maxDist - dist) / maxDist;
+                    const angle = Math.atan2(dy, dx);
+                    this.x -= Math.cos(angle) * force * 1.5;
+                    this.y -= Math.sin(angle) * force * 1.5;
                 }
             }
             draw() {
@@ -102,7 +147,13 @@
             particles.push(new Particle());
         }
         function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, width, height);
+            // Smooth mouse interpolation
+            smoothMouseX += (mouseX - smoothMouseX) * 0.04;
+            smoothMouseY += (mouseY - smoothMouseY) * 0.04;
+            // Move glow follower
+            glowFollower.style.left = `${smoothMouseX}px`;
+            glowFollower.style.top = `${smoothMouseY}px`;
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
@@ -110,22 +161,79 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
-        // --- 2. Word-by-Word Emotional Text Reveal ---
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+        // --- 2. Intro Sequence Timeline ---
+        const tagline1 = document.getElementById('tagline-1');
+        const tagline2 = document.getElementById('tagline-2');
+        const dateLine = document.getElementById('date-line');
+        const openBtn = document.getElementById('open-letter-btn');
+        const introScreen = document.getElementById('intro-screen');
+        const letterContainer = document.getElementById('letter-container');
+        window.addEventListener('load', () => {
+            // Step 1: Fade out tagline 1 after 3s
+            setTimeout(() => {
+                tagline1.classList.add('fade-out');
+            }, 3000);
+            // Step 2: Show tagline 2 after 4.2s
+            setTimeout(() => {
+                tagline1.style.display = 'none';
+                tagline2.classList.remove('hidden');
+                tagline2.classList.add('fade-in');
+            }, 4200);
+            // Step 3: Show July 2026 line after 6.5s
+            setTimeout(() => {
+                dateLine.classList.remove('hidden');
+                dateLine.classList.add('fade-in');
+            }, 6500);
+            // Step 4: Show Open My Letter button after 8.5s
+            setTimeout(() => {
+                openBtn.classList.remove('hidden');
+                openBtn.classList.add('fade-in');
+            }, 8500);
+        });
+        // Click Open My Letter button -> Particle Dissolve & Unfold Glass Letter
+        openBtn.addEventListener('click', (e) => {
+            // Particle burst from button location
+            burstParticles(e.clientX, e.clientY);
+            // Dissolve intro screen
+            introScreen.classList.add('dissolve');
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                document.body.classList.add('darkened-bg');
+                
+                // Show letter container & initialize page 1
+                letterContainer.classList.remove('hidden');
+                goToPage(1);
+            }, 1200);
+        });
+        function burstParticles(originX, originY) {
+            for (let i = 0; i < 40; i++) {
+                const p = new Particle();
+                p.x = originX;
+                p.y = originY;
+                p.speedX = (Math.random() - 0.5) * 8;
+                p.speedY = (Math.random() - 0.5) * 8;
+                p.opacity = 1;
+                particles.push(p);
+            }
+        }
+        // --- 3. Word-by-Word Emotional Text & Ink Animation ---
         function prepareTextAnimation() {
             document.querySelectorAll('p.emotional-text').forEach(el => {
                 const text = el.innerText;
                 el.innerHTML = '';
-                // Split text into words and wrap them in spans
                 const words = text.split(' ');
                 words.forEach((word, index) => {
                     const span = document.createElement('span');
                     span.textContent = word;
-                    // Calculate a flowing delay so words appear in sequence like talking
-                    span.style.transitionDelay = `${index * 0.08}s`;
+                    span.style.transitionDelay = `${index * 0.07}s`;
                     span.classList.add('word');
                     el.appendChild(span);
                     el.appendChild(document.createTextNode(' '));
@@ -133,37 +241,57 @@
             });
         }
         prepareTextAnimation();
-        // --- 3. Page Navigation & Triggering Animations ---
+        // --- 4. Page Navigation & Ending Sequence ---
         function goToPage(pageNumber) {
-            // Fade out and reset all pages
+            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
-                // Hide words again so they animate when you return
                 page.querySelectorAll('.word').forEach(w => w.classList.remove('visible'));
-                const wish = page.querySelector('.final-wish');
-                if(wish) wish.classList.remove('visible');
             });
-            
-            // Show the target page
             const target = document.getElementById(`page-${pageNumber}`);
             target.classList.add('active');
-            
-            // Add slight delay before starting the text reveal
+            // Trigger word-by-word reveal
             setTimeout(() => {
-                target.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
-                const wish = target.querySelector('.final-wish');
-                if(wish) {
-                    // Start the big happy birthday reveal slightly after the paragraph finishes
-                    const wordCount = target.querySelectorAll('.word').length;
-                    wish.style.transitionDelay = `${(wordCount * 0.08) + 0.5}s`;
-                    wish.classList.add('visible');
+                const words = target.querySelectorAll('.word');
+                words.forEach(w => w.classList.add('visible'));
+                // Special flow for Page 4 (The End Sequence)
+                if (pageNumber === 4) {
+                    runEndingSequence(words.length);
                 }
             }, 100);
         }
-        // Initialize the first page animations on load
-        setTimeout(() => {
-            document.getElementById('page-1').querySelectorAll('.word').forEach(w => w.classList.add('visible'));
-        }, 400);
+        function runEndingSequence(wordCount) {
+            const finalQuote = document.getElementById('final-thankyou');
+            const bdayTitle = document.getElementById('bday-title');
+            const bdayName = document.getElementById('bday-name');
+            const giftBtn = document.getElementById('gift-btn');
+            // Reset state if revisited
+            finalQuote.className = 'final-quote hidden';
+            bdayTitle.className = 'bday-title hidden';
+            bdayName.className = 'bday-name hidden';
+            giftBtn.classList.add('hidden');
+            const textFinishTime = (wordCount * 0.07 * 1000) + 1200;
+            // 1. Show single quote after paragraph finishes
+            setTimeout(() => {
+                finalQuote.classList.remove('hidden');
+                finalQuote.classList.add('fade-in');
+            }, textFinishTime);
+            // 2. Show "Happy Birthday" slowly after quote
+            setTimeout(() => {
+                bdayTitle.classList.remove('hidden');
+                bdayTitle.classList.add('fade-in');
+            }, textFinishTime + 3500);
+            // 3. Show "Sameeksha" a second later
+            setTimeout(() => {
+                bdayName.classList.remove('hidden');
+                bdayName.classList.add('fade-in-glow');
+            }, textFinishTime + 4800);
+            // 4. Reveal "🎁 Open Your Gift" button
+            setTimeout(() => {
+                giftBtn.classList.remove('hidden');
+                giftBtn.classList.add('fade-in-btn');
+            }, textFinishTime + 6500);
+        }
     </script>
 </body>
 </html>
