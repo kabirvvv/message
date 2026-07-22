@@ -123,11 +123,12 @@
                 const words = text.split(' ');
                 words.forEach((word, index) => {
                     const span = document.createElement('span');
-                    span.innerText = word + ' ';
+                    span.textContent = word;
                     // Calculate a flowing delay so words appear in sequence like talking
                     span.style.transitionDelay = `${index * 0.08}s`;
                     span.classList.add('word');
                     el.appendChild(span);
+                    el.appendChild(document.createTextNode(' '));
                 });
             });
         }
