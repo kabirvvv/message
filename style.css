@@ -70,7 +70,7 @@ body.darkened-bg .background-animation {
     filter: brightness(0.5);
 }
 
-/* --- INTRO SCREEN STYLING --- */
+/* --- INTRO & CLOSING COVER SCREEN STYLING --- */
 .intro-container {
     position: fixed;
     top: 0;
@@ -94,7 +94,7 @@ body.darkened-bg .background-animation {
 
 .intro-content {
     text-align: center;
-    max-width: 600px;
+    max-width: 650px;
     padding: 0 20px;
 }
 
@@ -134,7 +134,7 @@ body.darkened-bg .background-animation {
     transition: opacity 1.2s ease;
 }
 
-/* Intro Button with Aura Hover */
+/* Cover Screen Buttons with Aura Hover */
 .glow-btn {
     position: relative;
     background: transparent;
@@ -147,9 +147,11 @@ body.darkened-bg .background-animation {
     letter-spacing: 2px;
     border-radius: 40px;
     cursor: pointer;
-    transition: border-color 0.6s ease, box-shadow 0.6s ease;
+    transition: border-color 0.6s ease, box-shadow 0.6s ease, transform 0.4s ease;
     outline: none;
     overflow: visible;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .glow-btn .btn-text {
@@ -175,6 +177,7 @@ body.darkened-bg .background-animation {
 .glow-btn:hover {
     border-color: var(--accent);
     box-shadow: 0 0 25px rgba(220, 163, 255, 0.3);
+    color: #ffffff;
 }
 
 .glow-btn:hover .btn-aura {
@@ -192,13 +195,13 @@ body.darkened-bg .background-animation {
 .fade-in {
     opacity: 1 !important;
     pointer-events: auto !important;
-    transition: opacity 1.2s ease, transform 1.2s ease;
+    transition: opacity 1.4s ease, transform 1.4s ease;
 }
 
 .fade-out {
     opacity: 0 !important;
     transform: translateY(-10px);
-    transition: opacity 1.2s ease, transform 1.2s ease;
+    transition: opacity 1.4s ease, transform 1.4s ease;
 }
 
 /* --- MAIN LETTER CONTAINER STYLING --- */
@@ -208,7 +211,14 @@ body.darkened-bg .background-animation {
     position: relative;
     min-height: 450px;
     z-index: 1;
-    transition: opacity 1.2s ease;
+    transition: opacity 1.2s ease, transform 1.2s ease, filter 1.2s ease;
+}
+
+.container.dissolve {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(10px);
+    pointer-events: none;
 }
 
 .page {
@@ -276,27 +286,25 @@ p.emotional-text {
     color: var(--text-primary);
 }
 
-/* --- PAGE 4 SPECIAL ENDING STYLING --- */
+/* --- CLOSING SCREEN STYLING --- */
 .final-quote {
     font-family: 'Cinzel', serif;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     color: #e5d9fd;
     text-align: center;
-    margin-top: 45px;
     font-style: italic;
-    line-height: 1.9;
+    line-height: 2;
     letter-spacing: 1px;
-    transition: opacity 1.8s ease;
+    transition: opacity 1.8s ease, transform 1.8s ease;
 }
 
 .final-bday-container {
-    margin-top: 50px;
     text-align: center;
 }
 
 .bday-title {
     font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     color: var(--accent);
     letter-spacing: 5px;
     font-weight: 600;
@@ -305,9 +313,9 @@ p.emotional-text {
 
 .bday-name {
     font-family: 'Cinzel', serif;
-    font-size: 3rem;
+    font-size: 3.4rem;
     color: #ffffff;
-    letter-spacing: 7px;
+    letter-spacing: 8px;
     font-weight: 700;
     margin-top: 10px;
     text-shadow: 0 0 35px var(--glow), 0 0 10px rgba(255, 255, 255, 0.8);
@@ -321,7 +329,18 @@ p.emotional-text {
 
 @keyframes namePulse {
     0% { text-shadow: 0 0 35px var(--glow), 0 0 10px rgba(255, 255, 255, 0.8); }
-    100% { text-shadow: 0 0 60px var(--glow), 0 0 20px #ffffff; }
+    100% { text-shadow: 0 0 65px var(--glow), 0 0 20px #ffffff; }
+}
+
+.closing-action-wrapper {
+    margin-top: 50px;
+}
+
+.final-gift-btn {
+    background: rgba(220, 163, 255, 0.12) !important;
+    border-color: var(--accent) !important;
+    font-weight: 400 !important;
+    box-shadow: 0 0 30px rgba(220, 163, 255, 0.2);
 }
 
 /* --- NAVIGATION BUTTONS --- */
@@ -390,20 +409,6 @@ p.emotional-text {
     transform: translateX(5px);
 }
 
-/* Final Gift Button */
-.final-gift-btn {
-    background: rgba(220, 163, 255, 0.15);
-    border-color: var(--accent);
-    font-weight: 500;
-    box-shadow: 0 0 30px rgba(220, 163, 255, 0.25);
-    transition: opacity 1.5s ease, transform 0.4s ease, box-shadow 0.4s ease !important;
-}
-
-.fade-in-btn {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
-
 /* RESPONSIVE */
 @media (max-width: 768px) {
     body {
@@ -428,15 +433,15 @@ p.emotional-text {
     }
 
     .final-quote {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
     }
 
     .bday-title {
-        font-size: 1.6rem;
+        font-size: 1.7rem;
     }
 
     .bday-name {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
     }
     
     .nav-btn {
