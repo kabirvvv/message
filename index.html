@@ -13,10 +13,13 @@
 <body>
     <!-- Interactive Stardust & Glow Canvas -->
     <canvas id="stardust"></canvas>
+
     <!-- Cursor Follower Glow -->
     <div id="glow-follower"></div>
+
     <!-- Background Ambient Gradients -->
     <div class="background-animation"></div>
+
     <!-- INTRO COVER SCREEN -->
     <div id="intro-screen" class="intro-container">
         <div class="intro-content">
@@ -25,15 +28,17 @@
             <div class="tagline-wrapper">
                 <p id="tagline-1" class="tagline">Some projects are built for millions.</p>
                 <p id="tagline-2" class="tagline hidden">This one was built for one.</p>
-                <div id="date-line" class="date-line hidden">July 2026</div>
+                <div id="date-line" class="date-line hidden">27 July 2026</div>
             </div>
+
             <button id="open-letter-btn" class="glow-btn hidden">
                 <span class="btn-text">Open My Letter</span>
                 <div class="btn-aura"></div>
             </button>
         </div>
     </div>
-    <!-- MAIN LETTER CONTAINER (Initially Hidden) -->
+
+    <!-- MAIN LETTER CONTAINER -->
     <div id="letter-container" class="container hidden">
         
         <!-- Page 1 -->
@@ -46,6 +51,7 @@
                 <button class="nav-btn next-btn" onclick="goToPage(2)"><span>Next</span> &rarr;</button>
             </div>
         </div>
+
         <!-- Page 2 -->
         <div class="page" id="page-2">
             <div class="message-box">
@@ -56,6 +62,7 @@
                 <button class="nav-btn next-btn" onclick="goToPage(3)"><span>Next</span> &rarr;</button>
             </div>
         </div>
+
         <!-- Page 3 -->
         <div class="page" id="page-3">
             <div class="message-box">
@@ -66,14 +73,26 @@
                 <button class="nav-btn next-btn" onclick="goToPage(4)"><span>Next</span> &rarr;</button>
             </div>
         </div>
+
         <!-- Page 4 -->
         <div class="page" id="page-4">
             <div class="message-box">
                 <p class="emotional-text">in the end all I want to say Is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way you will always be my biggest motivation atleast that's something I've realised building it for you.....and lastly I only want to say is Please accept this little gift from me</p>
-                
-                <div id="final-thankyou" class="final-quote hidden">
+            </div>
+            
+            <div class="button-container">
+                <button class="nav-btn prev-btn" onclick="goToPage(3)">&larr; <span>Previous</span></button>
+                <button class="nav-btn next-btn" onclick="goToPage(5)"><span>Next</span> &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Page 5 (New Closing Page Section) -->
+        <div class="page" id="page-5">
+            <div class="message-box closing-box">
+                <p id="final-thankyou" class="final-quote hidden">
                     "Thank you for unknowingly inspiring something I never thought I'd finish."
-                </div>
+                </p>
+
                 <div id="final-bday-container" class="final-bday-container">
                     <h2 id="bday-title" class="bday-title hidden">Happy Birthday</h2>
                     <h2 id="bday-name" class="bday-name hidden">Sameeksha</h2>
@@ -81,54 +100,58 @@
             </div>
             
             <div class="button-container">
-                <button id="p4-prev-btn" class="nav-btn prev-btn" onclick="goToPage(3)">&larr; <span>Previous</span></button>
-                
+                <button class="nav-btn prev-btn" onclick="goToPage(4)">&larr; <span>Previous</span></button>
                 <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with your music app URL -->
                 <a id="gift-btn" href="YOUR_APP_LINK_HERE" class="nav-btn next-btn final-gift-btn hidden">
-                    <span>🎁 Open Your Gift</span>
+                    <span>🎁 Open Your Gift</span> &rarr;
                 </a>
             </div>
         </div>
         
     </div>
-    
+
     <script>
         // --- 1. Interactive Stardust & Mouse Tracking ---
         const canvas = document.getElementById('stardust');
         const ctx = canvas.getContext('2d');
         const glowFollower = document.getElementById('glow-follower');
+
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
+
         let mouseX = width / 2;
         let mouseY = height / 2;
         let smoothMouseX = width / 2;
         let smoothMouseY = height / 2;
+
         const particles = [];
         const particleCount = 130;
+
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.baseX = this.x;
-                this.baseY = this.y;
                 this.size = Math.random() * 2 + 0.5;
                 this.speedX = Math.random() * 0.3 - 0.15;
                 this.speedY = Math.random() * -0.5 - 0.1;
                 this.opacity = Math.random() * 0.5 + 0.15;
             }
+
             update() {
                 this.y += this.speedY;
                 this.x += this.speedX;
+
                 if (this.y < 0) {
                     this.y = height;
                     this.x = Math.random() * width;
-                    this.baseX = this.x;
                 }
+
                 // Interactive mouse push effect
                 const dx = smoothMouseX - this.x;
                 const dy = smoothMouseY - this.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 const maxDist = 180;
+
                 if (dist < maxDist) {
                     const force = (maxDist - dist) / maxDist;
                     const angle = Math.atan2(dy, dx);
@@ -136,6 +159,7 @@
                     this.y -= Math.sin(angle) * force * 1.5;
                 }
             }
+
             draw() {
                 ctx.fillStyle = `rgba(220, 163, 255, ${this.opacity})`;
                 ctx.beginPath();
@@ -143,17 +167,20 @@
                 ctx.fill();
             }
         }
+
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
+
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
-            // Smooth mouse interpolation
+
             smoothMouseX += (mouseX - smoothMouseX) * 0.04;
             smoothMouseY += (mouseY - smoothMouseY) * 0.04;
-            // Move glow follower
+
             glowFollower.style.left = `${smoothMouseX}px`;
             glowFollower.style.top = `${smoothMouseY}px`;
+
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
@@ -161,14 +188,17 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
+
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
         });
+
         // --- 2. Intro Sequence Timeline ---
         const tagline1 = document.getElementById('tagline-1');
         const tagline2 = document.getElementById('tagline-2');
@@ -176,43 +206,40 @@
         const openBtn = document.getElementById('open-letter-btn');
         const introScreen = document.getElementById('intro-screen');
         const letterContainer = document.getElementById('letter-container');
+
         window.addEventListener('load', () => {
-            // Step 1: Fade out tagline 1 after 3s
-            setTimeout(() => {
-                tagline1.classList.add('fade-out');
-            }, 3000);
-            // Step 2: Show tagline 2 after 4.2s
+            setTimeout(() => tagline1.classList.add('fade-out'), 3000);
+
             setTimeout(() => {
                 tagline1.style.display = 'none';
                 tagline2.classList.remove('hidden');
                 tagline2.classList.add('fade-in');
             }, 4200);
-            // Step 3: Show July 2026 line after 6.5s
+
             setTimeout(() => {
                 dateLine.classList.remove('hidden');
                 dateLine.classList.add('fade-in');
             }, 6500);
-            // Step 4: Show Open My Letter button after 8.5s
+
             setTimeout(() => {
                 openBtn.classList.remove('hidden');
                 openBtn.classList.add('fade-in');
             }, 8500);
         });
-        // Click Open My Letter button -> Particle Dissolve & Unfold Glass Letter
+
+        // Click Open My Letter -> Particle Dissolve & Unfold Glass Letter
         openBtn.addEventListener('click', (e) => {
-            // Particle burst from button location
             burstParticles(e.clientX, e.clientY);
-            // Dissolve intro screen
             introScreen.classList.add('dissolve');
+
             setTimeout(() => {
                 introScreen.style.display = 'none';
                 document.body.classList.add('darkened-bg');
-                
-                // Show letter container & initialize page 1
                 letterContainer.classList.remove('hidden');
                 goToPage(1);
             }, 1200);
         });
+
         function burstParticles(originX, originY) {
             for (let i = 0; i < 40; i++) {
                 const p = new Particle();
@@ -224,7 +251,8 @@
                 particles.push(p);
             }
         }
-        // --- 3. Word-by-Word Emotional Text & Ink Animation ---
+
+        // --- 3. Word-by-Word Emotional Text Animation ---
         function prepareTextAnimation() {
             document.querySelectorAll('p.emotional-text').forEach(el => {
                 const text = el.innerText;
@@ -241,56 +269,64 @@
             });
         }
         prepareTextAnimation();
-        // --- 4. Page Navigation & Ending Sequence ---
+
+        // --- 4. Page Navigation & Page 5 Trigger ---
         function goToPage(pageNumber) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
                 page.querySelectorAll('.word').forEach(w => w.classList.remove('visible'));
             });
+
             const target = document.getElementById(`page-${pageNumber}`);
             target.classList.add('active');
-            // Trigger word-by-word reveal
-            setTimeout(() => {
-                const words = target.querySelectorAll('.word');
-                words.forEach(w => w.classList.add('visible'));
-                // Special flow for Page 4 (The End Sequence)
-                if (pageNumber === 4) {
-                    runEndingSequence(words.length);
-                }
-            }, 100);
+
+            // If entering page 1-4, trigger word reveal
+            if (pageNumber <= 4) {
+                setTimeout(() => {
+                    target.querySelectorAll('.word').forEach(w => w.classList.add('visible'));
+                }, 100);
+            } 
+            // If entering page 5, trigger closing timeline inside Page 5
+            else if (pageNumber === 5) {
+                runPage5Timeline();
+            }
         }
-        function runEndingSequence(wordCount) {
+
+        function runPage5Timeline() {
             const finalQuote = document.getElementById('final-thankyou');
             const bdayTitle = document.getElementById('bday-title');
             const bdayName = document.getElementById('bday-name');
             const giftBtn = document.getElementById('gift-btn');
-            // Reset state if revisited
+
+            // Reset initial states
             finalQuote.className = 'final-quote hidden';
             bdayTitle.className = 'bday-title hidden';
             bdayName.className = 'bday-name hidden';
-            giftBtn.classList.add('hidden');
-            const textFinishTime = (wordCount * 0.16 * 1000) + 1500;
-            // 1. Show single quote after paragraph finishes
+            giftBtn.className = 'nav-btn next-btn final-gift-btn hidden';
+
+            // 1. Show thank you quote after 0.8s
             setTimeout(() => {
                 finalQuote.classList.remove('hidden');
                 finalQuote.classList.add('fade-in');
-            }, textFinishTime);
-            // 2. Show "Happy Birthday" slowly after quote
+            }, 800);
+
+            // 2. Show "Happy Birthday" after 3.5s
             setTimeout(() => {
                 bdayTitle.classList.remove('hidden');
                 bdayTitle.classList.add('fade-in');
-            }, textFinishTime + 3500);
-            // 3. Show "Sameeksha" a second later
+            }, 3500);
+
+            // 3. Show "Sameeksha" after 4.8s
             setTimeout(() => {
                 bdayName.classList.remove('hidden');
                 bdayName.classList.add('fade-in-glow');
-            }, textFinishTime + 4800);
-            // 4. Reveal "🎁 Open Your Gift" button
+            }, 4800);
+
+            // 4. Reveal "🎁 Open Your Gift" button after 6.5s
             setTimeout(() => {
                 giftBtn.classList.remove('hidden');
-                giftBtn.classList.add('fade-in-btn');
-            }, textFinishTime + 6500);
+                giftBtn.classList.add('fade-in');
+            }, 6500);
         }
     </script>
 </body>
