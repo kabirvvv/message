@@ -1,18 +1,16 @@
 :root {
     --bg-color: #08060f;
     --text-primary: #f0ebff;
-    --text-secondary: #a9a0cb;
+    --text-secondary: #e2daff;
     --accent: #c49eff;
     --card-bg: rgba(22, 17, 36, 0.4);
     --card-border: rgba(196, 158, 255, 0.1);
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
@@ -25,7 +23,6 @@ body {
     align-items: center;
     padding: 80px 20px;
 }
-
 /* Beautiful Animated Gradient Background */
 .background-animation {
     position: fixed;
@@ -36,7 +33,6 @@ body {
     z-index: -1;
     background: radial-gradient(circle at 50% 50%, #1a1233 0%, #08060f 100%);
 }
-
 .background-animation::before,
 .background-animation::after {
     content: '';
@@ -50,7 +46,6 @@ body {
     transform: translate(-50%, -50%);
     animation: pulse 12s infinite alternate ease-in-out;
 }
-
 .background-animation::after {
     width: 100vw;
     height: 100vw;
@@ -58,17 +53,33 @@ body {
     animation-delay: -6s;
     animation-duration: 18s;
 }
-
 @keyframes pulse {
     0% { transform: translate(-50%, -50%) scale(0.9); }
     100% { transform: translate(-50%, -50%) scale(1.1); }
 }
-
 .container {
     max-width: 850px;
     width: 100%;
+    position: relative;
+    min-height: 400px;
 }
-
+/* Page Navigation Styling */
+.page {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.page.active {
+    display: flex;
+    flex-direction: column;
+    animation: fadeUp 0.8s forwards;
+}
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 /* Glassmorphism Card */
 .message-box {
     background: var(--card-bg);
@@ -78,94 +89,74 @@ body {
     border-radius: 24px;
     padding: 70px 80px;
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 2.8rem;
-    color: var(--accent);
-    text-align: center;
-    margin-bottom: 50px;
-    font-weight: 600;
-    letter-spacing: 2px;
-}
-
-p {
-    font-size: 1.15rem;
-    color: var(--text-secondary);
     margin-bottom: 30px;
-    text-align: justify;
+}
+p {
+    font-size: 1.3rem; 
+    color: var(--text-secondary);
+    text-align: center;
     font-weight: 300;
 }
-
-p:last-of-type {
-    margin-bottom: 0;
-}
-
-.highlight {
-    color: var(--text-primary);
-    font-weight: 500;
-    font-size: 1.3rem;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 30px;
-}
-
 h2.final-wish {
     font-family: 'Cinzel', serif;
     font-size: 2.2rem;
     color: var(--accent);
     text-align: center;
-    margin-top: 40px;
+    margin-top: 50px;
     font-weight: 600;
     letter-spacing: 4px;
     text-shadow: 0 0 25px rgba(196, 158, 255, 0.4);
 }
-
-/* Scroll Reveal Animations */
-.fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+/* Next Button */
+.next-btn {
+    align-self: flex-end;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 12px 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    outline: none;
 }
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+.next-btn:hover {
+    background: var(--accent);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px rgba(196, 158, 255, 0.4);
+    transform: translateX(5px);
 }
-
-/* Staggered delays for elements that appear on load */
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
-.delay-3 { transition-delay: 0.6s; }
-
+.next-btn span {
+    transition: transform 0.3s ease;
+}
+.next-btn:hover span {
+    transform: translateX(5px);
+}
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     body {
         padding: 40px 15px;
     }
-
     .message-box {
-        padding: 50px 30px;
+        padding: 40px 25px;
         border-radius: 20px;
     }
     
-    h1 {
-        font-size: 2.2rem;
-        margin-bottom: 40px;
+    p {
+        font-size: 1.15rem;
     }
-    
     h2.final-wish {
         font-size: 1.6rem;
     }
     
-    p {
+    .next-btn {
+        padding: 10px 25px;
         font-size: 1.05rem;
-        text-align: left;
-    }
-    
-    .highlight {
-        font-size: 1.15rem;
     }
 }
