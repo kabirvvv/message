@@ -13,51 +13,50 @@
 <body>
     <div class="background-animation"></div>
     <div class="container">
-        <div class="message-box">
-            <h1 class="fade-in">Happy Birthday Sameeksha</h1>
-            
-            <p class="fade-in delay-1">Hey, it's been a while. I don't even know what to say, but first of all... happy birthday, Sameeksha.</p>
-            
-            <p class="fade-in delay-2">I want you to know that you're the only reason I've spent countless hours creating this little project, because I wanted something that mattered between us...</p>
-            
-            <p class="fade-in delay-3">I know it sounds weird, but trust me, it's just a project that I had in mind for a long while. And I want to thank YOU especially, because you're the motivation that kept me driving non-stop to keep going.</p>
-
-            <p class="fade-in delay-4">Even when I faced failures that made me want to quit this project, failures that completely shook the whole foundation of it. I just wanted to quit because the disappointment was real. I was trying so hard and it kept failing, I couldn't take it anymore.</p>
-
-            <p class="fade-in delay-5">But then, every time that thought came through, I remembered the soul of this project... and that was you all along. Even the idea was inspired by you.</p>
-
-            <p class="fade-in delay-6">I once told you that I'd build a music app for you, and that joke eventually turned into something sacred and came alive in this project.</p>
-
-            <p class="fade-in delay-7">I don't know if you'll actually use it or not, but still, building it from scratch, spending all this time, months of frustration over countless failures and disappointment are all worth it because I get to actually present it to you as a piece of myself.</p>
-
-            <p class="fade-in delay-8">Because even if you don't end up actually using it, I'll still be happy that I made it for you. Your first impression to this project will be my only reward that I seek...</p>
-
-            <p class="fade-in delay-9">In the end, all I want to say is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way. You will always be my biggest motivation, at least that's something I've realized building it for you...</p>
-
-            <p class="fade-in delay-10 highlight">And lastly, I only want to say is please accept this little gift from me.</p>
-
-            <h2 class="fade-in delay-11 final-wish">HAPPY BIRTHDAY SAMEEKSHA</h2>
+        
+        <!-- Page 1 -->
+        <div class="page active" id="page-1">
+            <div class="message-box">
+                <p>Hey it's been a while I don't even know what to say but first of all happy birthday sameeksha I want you to know that you're the only reason I've spent countless hours creating this little project because I wanted something that mattered between us.....i know it sounds weird but trust me it's just a project that I had in mind for a long while and I want to thank YOU especially because you're the motivation that kept me driving non stop to keep going even when I faced failures that made me quit this project that completely shook the whole foundation of it</p>
+            </div>
+            <button class="next-btn" onclick="nextPage(2)">Next <span>&rarr;</span></button>
         </div>
+        <!-- Page 2 -->
+        <div class="page" id="page-2">
+            <div class="message-box">
+                <p>i just wanted to quit because the disappointment was real I was trying so hard and it kept failing i couldn't take it anymore but then every time that thought came through i remembered the soul of this project and that was you all along even the idea was inspired by you I once told you that I'd build a music app for you and that joke eventually turned into something sacred and come alive in this project</p>
+            </div>
+            <button class="next-btn" onclick="nextPage(3)">Next <span>&rarr;</span></button>
+        </div>
+        <!-- Page 3 -->
+        <div class="page" id="page-3">
+            <div class="message-box">
+                <p>I don't know if you'll actually use it or not but still building it from scratch spending all this time months of frustration over countless failures and disappointment are all worth it because I get to actually present it to you as a piece of myself because even if you don't end up actually using it I'll still be happy that I made it for you your first impression to this project will be my only reward that I seek</p>
+            </div>
+            <button class="next-btn" onclick="nextPage(4)">Next <span>&rarr;</span></button>
+        </div>
+        <!-- Page 4 -->
+        <div class="page" id="page-4">
+            <div class="message-box">
+                <p>in the end all I want to say Is thank you for giving me this idea and the will to keep moving forward no matter what crossed my way you will always be my biggest motivation atleast that's something I've realised building it for you.....and lastly I only want to say is Please accept this little gift from me</p>
+                <h2 class="final-wish">HAPPY BIRTHDAY SAMEEKSHA</h2>
+            </div>
+            
+            <!-- UPDATE THIS LINK: Replace YOUR_APP_LINK_HERE with the URL to the music app -->
+            <a href="YOUR_APP_LINK_HERE" class="next-btn final-btn">Open Project <span>&rarr;</span></a>
+        </div>
+        
     </div>
     
     <script>
-        // Intersection Observer for scroll-triggered fade-in animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: stop observing once it's visible to keep it on screen
-                    // observer.unobserve(entry.target); 
-                }
+        function nextPage(pageNumber) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
             });
-        }, { 
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        });
-
-        document.querySelectorAll('.fade-in').forEach(element => {
-            observer.observe(element);
-        });
+            // Show the target page
+            document.getElementById(`page-${pageNumber}`).classList.add('active');
+        }
     </script>
 </body>
 </html>
