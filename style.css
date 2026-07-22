@@ -70,7 +70,7 @@ body.darkened-bg .background-animation {
     filter: brightness(0.5);
 }
 
-/* --- INTRO & CLOSING COVER SCREEN STYLING --- */
+/* --- INTRO SCREEN STYLING --- */
 .intro-container {
     position: fixed;
     top: 0;
@@ -214,13 +214,6 @@ body.darkened-bg .background-animation {
     transition: opacity 1.2s ease, transform 1.2s ease, filter 1.2s ease;
 }
 
-.container.dissolve {
-    opacity: 0;
-    transform: scale(0.96);
-    filter: blur(10px);
-    pointer-events: none;
-}
-
 .page {
     display: none;
     opacity: 0;
@@ -259,6 +252,11 @@ body.darkened-bg .background-animation {
     transition: box-shadow 0.8s ease;
 }
 
+.closing-box {
+    text-align: center;
+    padding: 80px 60px;
+}
+
 p.emotional-text {
     font-size: 1.35rem; 
     color: var(--text-secondary);
@@ -286,10 +284,10 @@ p.emotional-text {
     color: var(--text-primary);
 }
 
-/* --- CLOSING SCREEN STYLING --- */
+/* --- PAGE 5 CLOSING CONTENT STYLING --- */
 .final-quote {
     font-family: 'Cinzel', serif;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     color: #e5d9fd;
     text-align: center;
     font-style: italic;
@@ -299,6 +297,7 @@ p.emotional-text {
 }
 
 .final-bday-container {
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -313,7 +312,7 @@ p.emotional-text {
 
 .bday-name {
     font-family: 'Cinzel', serif;
-    font-size: 3.4rem;
+    font-size: 3.2rem;
     color: #ffffff;
     letter-spacing: 8px;
     font-weight: 700;
@@ -332,15 +331,11 @@ p.emotional-text {
     100% { text-shadow: 0 0 65px var(--glow), 0 0 20px #ffffff; }
 }
 
-.closing-action-wrapper {
-    margin-top: 50px;
-}
-
 .final-gift-btn {
-    background: rgba(220, 163, 255, 0.12) !important;
+    background: rgba(220, 163, 255, 0.15) !important;
     border-color: var(--accent) !important;
-    font-weight: 400 !important;
-    box-shadow: 0 0 30px rgba(220, 163, 255, 0.2);
+    font-weight: 500 !important;
+    box-shadow: 0 0 30px rgba(220, 163, 255, 0.25) !important;
 }
 
 /* --- NAVIGATION BUTTONS --- */
